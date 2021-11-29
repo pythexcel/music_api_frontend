@@ -37,7 +37,7 @@ const styles= StyleSheet.create({
      },
     search:{
         width:windowWidth*.2,
-        height:windowHeight*0.06,
+        height:windowHeight*0.07,
         paddingHorizontal:10,
         left:20,
         borderTopLeftRadius:20,

@@ -13,7 +13,7 @@ const Frame=()=>{
     const [modalVisible, setModalVisible] = useState(false);
     return(
         <View style={styles.frameWaraper}> 
-            <Image source={frame} resizeMode="stretch" style={{height:120}} />
+            <Image source={frame} resizeMode="stretch" style={{height:120,width:windowWidth*0.9999}} />
                <View  style={styles.imageStyle1}>
                    <Image source={vector} style={styles.vector}/> 
                </View>

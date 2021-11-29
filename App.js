@@ -28,7 +28,7 @@
            <View style={{flex:1}}>
                 <Search/>
            </View>
-           <View style={{flex:6}}>
+           <View style={{flex:6,alignItems:"center"}}>
                 <ListItem/>
            </View>
          </View>

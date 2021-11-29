@@ -32,7 +32,7 @@ const ListOfItem=(listItem)=>(
             <View style={{top:10,}}>
                      <Progress.Bar progress={(listItem.listItem.daysPracticed/listItem.listItem.days)} width={200} />
              </View>
-             <View style={{marginLeft:30,}}>
+             <View style={{marginLeft:25,}}>
                     <Text style={styles.days}>{Math.floor((parseInt(listItem.listItem.daysPracticed)*100)/parseInt(listItem.listItem.days))} %</Text>
             </View>                    
         </View>
