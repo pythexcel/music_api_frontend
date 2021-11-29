@@ -1,28 +1,28 @@
 import React,{useState,useEffect} from "react";
 import {View, Text, FlatList,StyleSheet, Image} from "react-native";
-import  Icon  from "react-native-vector-icons/Ionicons";
 import apiUrl from "../config.json";
 import axios from "axios";
 import iconImage from "../../assets/rythem.png";
 import vectorIcon from "../../assets/icon/Vector.png";
 import moment from "moment";
 import  * as Progress from 'react-native-progress';
+import {dataStorage} from "../redux/action/Tonara";
+import { useSelector, useDispatch } from "react-redux";
 
 
 const ListOfItem=(listItem)=>(
-    
+
     <View style={styles.container}>
-        {console.log(listItem.listItem.daily_practice_time)}
         <View style={styles.imageTileWraper}>
             <Image style={styles.imageStyle} source={iconImage}/>
             <View>
-                <Text style={styles.title}>{listItem.listItem.title.length > 15 ? listItem.listItem.title.substring(0,15)+"..." : listItem.listItem.title}</Text>
-                <Text style={styles.music}>{listItem.listItem.music_genre}</Text>
+                <Text style={styles.title}>{listItem.listItem.title?.length > 15 ? listItem.listItem.title.substring(0,15)+"..." : listItem.listItem.title}</Text>
+                <Text style={styles.music}>{listItem.listItem.musicGenre}</Text>
             </View>
         </View>
         <View style={{flexDirection:"row",flex:1,justifyContent:"space-around"}}>
             <View>
-                <Text style={styles.days}>{listItem.listItem.days_practiced} days / {listItem.listItem.daily_practice_time} minute per days</Text>
+                <Text style={styles.days}>{listItem.listItem.daysPracticed} days / {listItem.listItem.dailyPracticeTime} minute per days</Text>
             </View>
             <View>
                  <Image style={styles.vectorIconStyle} source={vectorIcon}/>
@@ -30,10 +30,10 @@ const ListOfItem=(listItem)=>(
         </View>
         <View style={{ marginHorizontal:20,marginBottom:15,flexDirection:"row"}}>
             <View style={{top:10,}}>
-                     <Progress.Bar progress={(listItem.listItem.days_practiced/listItem.listItem.days)} width={200} />
+                     <Progress.Bar progress={(listItem.listItem.daysPracticed/listItem.listItem.days)} width={200} />
              </View>
              <View style={{marginLeft:30,}}>
-                    <Text style={styles.days}>{Math.floor((listItem.listItem.days_practiced*100)/listItem.listItem.days)} %</Text>
+                    <Text style={styles.days}>{Math.floor((parseInt(listItem.listItem.daysPracticed)*100)/parseInt(listItem.listItem.days))} %</Text>
             </View>                    
         </View>
     </View>
@@ -42,14 +42,16 @@ const ListOfItem=(listItem)=>(
 
 
 const ListItem = () =>{
-    const [listOfData, setListOfData] = useState([])
+    const dispatch=useDispatch();
+    const listOfData = useSelector(state => state.TonaraReducer.dataStorage);
+    console.log(listOfData,"kmakm")
   useEffect(()=> {
     getData();
   },[])
 
   const getData=async()=>{
-     await axios.get("http://5.9.18.28:8061/assignment/").then((res)=>{
-        setListOfData(res.data)
+     await axios.get(apiUrl.apiEndPoint + "/assignment/").then((res)=>{
+        dispatch(dataStorage(res.data))
      }).catch((e)=>{
          console.log(e)
      })
@@ -59,7 +61,7 @@ const ListItem = () =>{
         <View style={styles.mainContainer}>
             <FlatList
                 data={listOfData}
-                keyExtractor={({item,index}) => index}
+                keyExtractor={({item,index}) => Math.random(100)}
                 renderItem={({item}) => {
                     return (
                         <ListOfItem listItem={item}/>
