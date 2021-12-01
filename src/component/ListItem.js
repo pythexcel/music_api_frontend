@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useCallback} from "react";
 import {View, Text, FlatList,StyleSheet, Image} from "react-native";
 import apiUrl from "../config.json";
 import axios from "axios";
@@ -44,18 +44,18 @@ const ListOfItem=(listItem)=>(
 const ListItem = () =>{
     const dispatch=useDispatch();
     const listOfData = useSelector(state => state.TonaraReducer.dataStorage);
-    console.log(listOfData,"kmakm")
   useEffect(()=> {
     getData();
   },[])
 
-  const getData=async()=>{
+  const getData=useCallback(async()=>{
      await axios.get(apiUrl.apiEndPoint + "/assignment/").then((res)=>{
+         console.log(res.data)
         dispatch(dataStorage(res.data))
      }).catch((e)=>{
          console.log(e)
      })
-  }
+  },[])
 
     return(
         <View style={styles.mainContainer}>
